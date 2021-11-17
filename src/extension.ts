@@ -1,67 +1,48 @@
+import { ExtensionContext, commands, window, workspace } from "vscode";
+import { ctx } from "./Context";
+import { executeCommand } from "./terminal";
+import { TERMINAL_NAME } from "./constants";
+import { runTest } from "./jest-test/index";
 
-import { commands, ExtensionContext, window } from 'vscode'
-import { Config } from './config'
-import { getNi, hasDependencies, hasNodeModules, isViteProject, loadPackageJSON, timeout } from './utils'
-import { ctx } from './Context'
-import { closeTerminal, executeCommand } from './terminal'
-import { tryRecoverState } from './recover'
-import { updateStatusBar } from './statusBar'
-import { showCommands } from './showCommands'
-import { start, stop } from './start'
-import { open } from './open'
-import { enableVitepressAutoRouting } from './vitepressAutoRouting'
+// 读取当前的terminal
+export const getTerminal = (terminalName: string) => {
+  return window.terminals.find((t) => t.name === terminalName);
+};
 
 export async function activate(ext: ExtensionContext) {
-  ctx.ext = ext
-  
-  commands.registerCommand('vite.stop', stop)
-  commands.registerCommand('vite.restart', start)
-  commands.registerCommand('vite.open', () => open())
-  commands.registerCommand('vite.showCommands', showCommands)
+  ctx.ext = ext;
+  commands.registerCommand("vtools.test", () => {
+    executeCommand("tree");
+  });
 
-  window.onDidCloseTerminal((e) => {
-    if (e === ctx.terminal) {
-      stop()
-      ctx.terminal = undefined!
+  commands.registerCommand("vtools.runTest", (uri) => {
+    let filePath = uri._fsPath.replace(workspace.rootPath || "", "");
+    // 根据路径去匹配文件，看文件中是否已经有配置
+    runTest(filePath);
+  });
+
+  // 跑起来
+  commands.registerCommand("vtools.tRun", () => {
+    // {
+    //   scheme: "file",
+    //   authority: "",
+    //   path: "/i:/ws-plugins/vue-unit-test-with-jest/vue-unit-test-with-jest/tests/unit/AxiosTest.spec.js",
+    //   query: "",
+    //   fragment: "",
+    //   _formatted: "file:///i%3A/ws-plugins/vue-unit-test-with-jest/vue-unit-test-with-jest/tests/unit/AxiosTest.spec.js",
+    //   _fsPath: "i:\\ws-plugins\\vue-unit-test-with-jest\\vue-unit-test-with-jest\\tests\\unit\\AxiosTest.spec.js",
+    // }
+    const command = "yarn test:unit";
+    let terminal = getTerminal(TERMINAL_NAME);
+    if (!terminal) {
+      terminal = window.createTerminal(TERMINAL_NAME);
     }
-  })
-
-  ctx.packageJSON = loadPackageJSON()
-
-  if (!isViteProject())
-    return
-
-  if (Config.vitepress && hasDependencies('vitepress')) {
-    ctx.command = 'vitepress'
-    if (Config.vitepressAutoRouting)
-      enableVitepressAutoRouting()
-  }
-
-  await tryRecoverState()
-
-  updateStatusBar()
-
-  if (Config.autoStart) {
-    if (!hasNodeModules()) {
-      const ni = getNi()
-      const result = await window.showWarningMessage(
-        'Vite: It seems like you didn\'t have node modules installed, would you like to install it now?',
-        `Install (${ni})`,
-        'Cancel',
-      )
-      if (result && result !== 'Cancel') {
-        executeCommand(ni)
-        await timeout(5000)
-      }
-      else {
-        return
-      }
-    }
-    if (Config.open)
-      open({ autoStart: true, stopPrevious: false })
-  }
+    terminal.show();
+    terminal.sendText(command.trim());
+    executeCommand("ls");
+  });
 }
 
-export async function deactivate() {
-  closeTerminal()
-}
+// export async function deactivate() {
+//   closeTerminal();
+// }

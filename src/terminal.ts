@@ -7,7 +7,7 @@ export function ensureTerminal() {
   if (isTerminalActive())
     return
 
-  ctx.terminal = window.createTerminal('Vite')
+  ctx.terminal = window.createTerminal('JestRunIt')
 }
 
 export function isTerminalActive() {

@@ -29,40 +29,20 @@
   "contributes": {
     "commands": [
       {
-        "command": "vtools.test",
-        "title": "Test vTools"
-      },
-      {
-        "command": "vtools.tRun",
-        "title": "tRun"
-      },
-      {
-        "command": "vtools.runTest",
-        "title": "sRun"
+        "command": "vite.stop",
+        "category": "Vite",
+        "title": "Stop Vite Server"
       }
     ],
     "menus": {
       "editor/title": [
         {
-          "when": "resourceFilename =~ /\\.spec\\.[tj]s$/",
-          "command": "vtools.runTest",
-          "group": "navigation"
-        },
-        {
-          "when": "resourceFilename =~ /\\.spec\\.[tj]s$/",
-          "command": "vtools.tRun",
+          "when": "resourceScheme == webview-panel && browse-lite-active",
+          "command": "vite.showCommands",
           "group": "navigation"
         }
       ]
     },
-    "keybindings": [
-      {
-        "command": "vtools.runTest",
-        "key": "ctrl+alt+N",
-        "mac": "cmd++alt+N",
-        "when": "resourceFilename =~ /\\.spec\\.[tj]s$/"
-      }
-    ],
     "configuration": {
       "type": "object",
       "title": "Vite",
