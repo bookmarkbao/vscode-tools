@@ -13,6 +13,7 @@ import { enableVitepressAutoRouting } from './vitepressAutoRouting'
 
 export async function activate(ext: ExtensionContext) {
   ctx.ext = ext
+  
   commands.registerCommand('vite.stop', stop)
   commands.registerCommand('vite.restart', start)
   commands.registerCommand('vite.open', () => open())
