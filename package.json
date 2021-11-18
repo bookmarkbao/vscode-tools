@@ -42,6 +42,30 @@
       }
     ],
     "menus": {
+      "explorer/context": [
+        {
+          "when": "explorerResourceIsFolder || resourceFilename =~ /\\.spec\\.[tj]s$/",
+          "command": "vtools.runTest",
+          "group": "navigation"
+        }
+      ],
+      "editor/title/run": [
+        {
+          "when": "resourceFilename =~ /\\.spec\\.[tj]s$/",
+          "command": "vtools.runTest",
+          "group": "navigation"
+        },
+        {
+          "when": "resourceFilename =~ /\\.spec\\.[tj]s$/",
+          "command": "vtools.test",
+          "group": "navigation"
+        },
+        {
+          "when": "resourceFilename =~ /\\.spec\\.[tj]s$/",
+          "command": "vtools.tRun",
+          "group": "navigation"
+        }
+      ],
       "editor/title": [
         {
           "when": "resourceFilename =~ /\\.spec\\.[tj]s$/",
@@ -64,7 +88,6 @@
       {
         "command": "vtools.runTest",
         "key": "ctrl+alt+N",
-        "mac": "cmd++alt+N",
         "when": "resourceFilename =~ /\\.spec\\.[tj]s$/"
       }
     ],

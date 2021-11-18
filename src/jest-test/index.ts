@@ -77,21 +77,27 @@ export const runTest = (
 ) => {
   const jestPath = "test:unit";
   const jestConfigPath = "";
-    const environmentVarialbes: string = "yarn";
+const environmentVarialbes: string = "yarn";
   // const environmentVarialbes: string = yarnOrNpm();
   // const argNpm =
     // environmentVarialbes === "yarn" ? "--collectCoverage=false" : "-- --collectCoverage=false";
-  const jestConfig = loadJestConfig()
   // 'collectCoverage': false,
   // 'collectCoverageFrom': ['src/**/*.{js,vue}', '!**/node_modules/**']
+  const jestConfig = loadJestConfig()
   const collectCoverage = jestConfig?.collectCoverage || false
   const collectCoverageFrom = jestConfig?.collectCoverageFrom || ['']
-  console.log('collectCoverageFrom',collectCoverageFrom);
-  const curDirFilename = getFilenameByCurrentDirectory(filePath)
+
   const runOptions: string[] = [ `--collectCoverage=${collectCoverage}`];
-  if(curDirFilename){
+  console.log('collectCoverageFrom',collectCoverageFrom);
+  // 判断是否为目录，如果是则直接扫描
+  if(filePath.endsWith('.spec.js')){
+    const curDirFilename = getFilenameByCurrentDirectory(filePath)
     runOptions.push(`filename=${curDirFilename}`)
+  }else{
+    runOptions.push(filePath)
   }
+  runOptions.push('--colors')
+ 
   let command = `${environmentVarialbes} ${jestPath} ${quoteTestName(
     filePath
   )}`;

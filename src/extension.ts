@@ -3,7 +3,6 @@ import { ctx } from "./Context";
 import { executeCommand } from "./terminal";
 import { TERMINAL_NAME } from "./constants";
 import { runTest } from "./jest-test/index";
-import { Config } from './config'
 import { loadPackageJSON, loadJestConfig} from './utils'
 // 读取当前的terminal
 export const getTerminal = (terminalName: string) => {
