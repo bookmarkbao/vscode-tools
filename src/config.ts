@@ -5,6 +5,10 @@ export function getConfig<T>(key: string, v?: T) {
 }
 
 export const Config = {
+  get jestConfig(){
+    return getJestConfig('autoStart', true)
+  },
+
   get root() {
     return workspace.workspaceFolders?.[0]?.uri?.fsPath || ''
   },

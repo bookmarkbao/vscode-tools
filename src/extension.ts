@@ -3,7 +3,8 @@ import { ctx } from "./Context";
 import { executeCommand } from "./terminal";
 import { TERMINAL_NAME } from "./constants";
 import { runTest } from "./jest-test/index";
-
+import { Config } from './config'
+import { loadPackageJSON, loadJestConfig} from './utils'
 // 读取当前的terminal
 export const getTerminal = (terminalName: string) => {
   return window.terminals.find((t) => t.name === terminalName);
@@ -12,13 +13,27 @@ export const getTerminal = (terminalName: string) => {
 export async function activate(ext: ExtensionContext) {
   ctx.ext = ext;
   commands.registerCommand("vtools.test", () => {
-    executeCommand("tree");
-  });
+    // executeCommand("tree");
+    debugger
+    const res = loadPackageJSON()
+    console.log(res);
 
+    const js = loadJestConfig()
+    console.log(js);
+    
+    
+  });
+  
+
+  // sRun
   commands.registerCommand("vtools.runTest", (uri) => {
-    let filePath = uri._fsPath.replace(workspace.rootPath || "", "");
+    let filePath = uri?._fsPath.replace(workspace.rootPath || "", "") || "";
     // 根据路径去匹配文件，看文件中是否已经有配置
-    runTest(filePath);
+    if(filePath){
+      runTest(filePath);
+    }else{
+      window.showErrorMessage('❗️ 路径不正确，请检查')
+    }
   });
 
   // 跑起来

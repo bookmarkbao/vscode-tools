@@ -45,6 +45,11 @@
       "editor/title": [
         {
           "when": "resourceFilename =~ /\\.spec\\.[tj]s$/",
+          "command": "vtools.test",
+          "group": "navigation"
+        },
+        {
+          "when": "resourceFilename =~ /\\.spec\\.[tj]s$/",
           "command": "vtools.runTest",
           "group": "navigation"
         },

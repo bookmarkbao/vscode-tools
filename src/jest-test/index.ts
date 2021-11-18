@@ -2,6 +2,8 @@ import * as path from "path";
 import { getTerminal, yarnOrNpm } from "../utils";
 import { window, debug, workspace, DebugConfiguration } from "vscode";
 import { TERMINAL_NAME } from "../constants";
+import { loadJestConfig, getFilenameByCurrentDirectory } from "../utils";
+
 export const DEFAULT_TEST_FILE_PATTERNS = [
   "**/*.{test,spec}.{js,jsx,ts,tsx}",
   "**/__tests__/*.{js,jsx,ts,tsx}",
@@ -68,7 +70,6 @@ const convertEnvVariablesToObj = (env: string) => {
 
   return obj;
 };
-
 export const runTest = (
   filePath: string,
   testName?: string,
@@ -76,12 +77,21 @@ export const runTest = (
 ) => {
   const jestPath = "test:unit";
   const jestConfigPath = "";
-  //   const environmentVarialbes: string = "yarn";
-  const environmentVarialbes: string = yarnOrNpm();
-  const argNpm =
-    environmentVarialbes === "yarn" ? "--collectCoverage=false" : "-- --collectCoverage=false";
-  const runOptions: string[] = [argNpm];
-
+    const environmentVarialbes: string = "yarn";
+  // const environmentVarialbes: string = yarnOrNpm();
+  // const argNpm =
+    // environmentVarialbes === "yarn" ? "--collectCoverage=false" : "-- --collectCoverage=false";
+  const jestConfig = loadJestConfig()
+  // 'collectCoverage': false,
+  // 'collectCoverageFrom': ['src/**/*.{js,vue}', '!**/node_modules/**']
+  const collectCoverage = jestConfig?.collectCoverage || false
+  const collectCoverageFrom = jestConfig?.collectCoverageFrom || ['']
+  console.log('collectCoverageFrom',collectCoverageFrom);
+  const curDirFilename = getFilenameByCurrentDirectory(filePath)
+  const runOptions: string[] = [ `--collectCoverage=${collectCoverage}`];
+  if(curDirFilename){
+    runOptions.push(`filename=${curDirFilename}`)
+  }
   let command = `${environmentVarialbes} ${jestPath} ${quoteTestName(
     filePath
   )}`;

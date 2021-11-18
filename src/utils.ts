@@ -81,6 +81,20 @@ export function loadPackageJSON() {
   if (fs.existsSync(path)) return JSON.parse(fs.readFileSync(path, "utf-8"));
 }
 
+export function loadJestConfig() {
+  const path = join(Config.root, "jest.config.js");
+  if (fs.existsSync(path)) return require(path);
+}
+
+export function getFilenameByCurrentDirectory(uri): String{
+  let testFile = uri?.match(/\w*\/\w*.spec.js/) || ""
+  if (testFile !== null) {
+    testFile = testFile[0].replace('/', '_')
+  }
+  return testFile
+}
+
+
 export function capitalize(str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
