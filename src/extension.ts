@@ -1,9 +1,18 @@
+/*
+ * @Descripttion: 
+ * @Author: xiangjun
+ * @Date: 2021-11-18 09:26:07
+ * @LastEditors: sueRimn
+ * @LastEditTime: 2021-11-19 16:28:05
+ */
 import { ExtensionContext, commands, window, workspace } from "vscode";
 import { ctx } from "./Context";
 import { executeCommand } from "./terminal";
 import { TERMINAL_NAME } from "./constants";
 import { runTest } from "./jest-test/index";
 import { loadPackageJSON, loadJestConfig} from './utils'
+import { DepNodeProvider } from './nodeDependencies';
+
 // 读取当前的terminal
 export const getTerminal = (terminalName: string) => {
   return window.terminals.find((t) => t.name === terminalName);
@@ -11,6 +20,15 @@ export const getTerminal = (terminalName: string) => {
 
 export async function activate(ext: ExtensionContext) {
   ctx.ext = ext;
+  // 左侧命令
+  const rootPath = (workspace.workspaceFolders && (workspace.workspaceFolders.length > 0))
+  ? workspace.workspaceFolders[0].uri.fsPath : undefined;
+  	// Samples of `window.registerTreeDataProvider`
+	const nodeDependenciesProvider = new DepNodeProvider(rootPath);
+	window.registerTreeDataProvider('nodeDependencies', nodeDependenciesProvider);
+
+
+
   commands.registerCommand("vtools.test", () => {
     // executeCommand("tree");
     debugger

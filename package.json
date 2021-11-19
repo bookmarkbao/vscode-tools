@@ -3,10 +3,10 @@
   "preview": true,
   "displayName": "tool123",
   "description": "VS Code for tool123",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "publisher": "daxiang",
   "license": "MIT",
-  "icon": "res/icon.png",
+  "icon": "res/elephant.png",
   "repository": {
     "type": "git",
     "url": "https://github.com/bookmarkbao/vscode-tools"
@@ -20,7 +20,8 @@
   "activationEvents": [
     "*",
     "onFileSystem:vite.config.js",
-    "onFileSystem:vite.config.ts"
+    "onFileSystem:vite.config.ts",
+    "onView:nodeDependencies"
   ],
   "main": "./dist/extension.js",
   "extensionPack": [
@@ -83,6 +84,28 @@
           "group": "navigation"
         }
       ]
+    },
+    "viewsContainers": {
+      "activitybar": [
+          {
+              "id": "vtoolsCommandCoverageList",
+              "title": "查看覆盖率",
+              "icon": "res/elephant.png"
+          }
+      ]
+    },
+    "views": {
+      "vtoolsCommandCoverageList": [{
+        "id": "nodeDependencies",
+        "name": "nodeDependencies",
+        "icon": "media/dep.svg"
+      },{
+          "id": "defaultCoverageCommand",
+          "name": "常用指令"
+        },{
+          "id": "customerCoverageCommand",
+          "name": "自定义指令"
+        }]
     },
     "keybindings": [
       {
