@@ -1,7 +1,6 @@
 import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
-import { loadJestRunConfig } from './utils'
 
 export class DepNodeProvider implements vscode.TreeDataProvider<Dependency> {
 	private counter:number = 0
@@ -25,26 +24,16 @@ export class DepNodeProvider implements vscode.TreeDataProvider<Dependency> {
 			return Promise.resolve([]);
 		}
 
-		if (element) { // 如果还有的话
-			let deps = [new Dependency('模块覆盖率', '向军', vscode.TreeItemCollapsibleState.None, {
-				command: 'vtools.tRun',
-				title: '跑起来',
-				arguments: ['']
-			})]
-			return Promise.resolve(deps)
+		if (element) {
+			return Promise.resolve(this.getDepsInPackageJson(path.join(this.workspaceRoot, 'node_modules', element.label, 'package.json')));
 		} else {
-			let coverageModule = loadJestRunConfig()
-			let coverageArr: Dependency[] = []
-			console.log(coverageModule);
-			for (const key in coverageModule) {
-				const element = coverageModule[key];
-				coverageArr.push(new Dependency(key, '向军', vscode.TreeItemCollapsibleState.None,{
-					command: 'vtools.test',
-					title: key,
-					arguments: [{...element, key:key}]
-				}))
+			const packageJsonPath = path.join(this.workspaceRoot, 'package.json');
+			if (this.pathExists(packageJsonPath)) {
+				return Promise.resolve(this.getDepsInPackageJson(packageJsonPath));
+			} else {
+				vscode.window.showInformationMessage('Workspace has no package.json');
+				return Promise.resolve([]);
 			}
-			return Promise.resolve(coverageArr)
 		}
 
 	}
@@ -64,6 +53,38 @@ export class DepNodeProvider implements vscode.TreeDataProvider<Dependency> {
 			 return []
 		 }
 	 }
+
+
+	/**
+	 * Given the path to package.json, read all its dependencies and devDependencies.
+	 */
+	private getDepsInPackageJson_01(packageJsonPath: string): Dependency[] {
+		if (this.pathExists(packageJsonPath)) {
+			const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'));
+
+			const toDep = (moduleName: string, version: string): Dependency => {
+				if (this.pathExists(path.join(this.workspaceRoot, 'node_modules', moduleName))) {
+					return new Dependency(moduleName, version, vscode.TreeItemCollapsibleState.Collapsed);
+				} else {
+					return new Dependency(moduleName, version, vscode.TreeItemCollapsibleState.None, {
+						command: 'extension.openPackageOnNpm',
+						title: '',
+						arguments: [moduleName]
+					});
+				}
+			};
+
+			const deps = packageJson.dependencies
+				? Object.keys(packageJson.dependencies).map(dep => toDep(dep, packageJson.dependencies[dep]))
+				: [];
+			const devDeps = packageJson.devDependencies
+				? Object.keys(packageJson.devDependencies).map(dep => toDep(dep, packageJson.devDependencies[dep]))
+				: [];
+			return deps.concat(devDeps);
+		} else {
+			return [];
+		}
+	}
 
 	private pathExists(p: string): boolean {
 		try {

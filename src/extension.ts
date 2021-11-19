@@ -9,8 +9,8 @@ import { ExtensionContext, commands, window, workspace } from "vscode";
 import { ctx } from "./Context";
 import { executeCommand } from "./terminal";
 import { TERMINAL_NAME } from "./constants";
-import { runTest } from "./jest-test/index";
-import { loadPackageJSON, loadJestConfig} from './utils'
+import { runTest, runTestByCommand } from "./jest-test/index";
+// import { loadPackageJSON, loadJestConfig} from './utils'
 import { DepNodeProvider } from './nodeDependencies';
 
 // 读取当前的terminal
@@ -29,16 +29,9 @@ export async function activate(ext: ExtensionContext) {
 
 
 
-  commands.registerCommand("vtools.test", () => {
+  commands.registerCommand("vtools.test", (testInfo:any) => {
     // executeCommand("tree");
-    debugger
-    const res = loadPackageJSON()
-    console.log(res);
-
-    const js = loadJestConfig()
-    console.log(js);
-    
-    
+     runTestByCommand(testInfo)
   });
   
 

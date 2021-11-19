@@ -86,6 +86,15 @@ export function loadJestConfig() {
   if (fs.existsSync(path)) return require(path);
 }
 
+export function loadJestRunConfig() {
+  const path = join(Config.root, "tests/unit/__utils__/index.js");
+  if (fs.existsSync(path)) {
+    return require(path);
+  }else{
+    return undefined
+  }
+}
+
 export function getFilenameByCurrentDirectory(uri): String{
   let testFile = uri?.match(/\w*\/\w*.spec.js/) || ""
   if (testFile !== null) {

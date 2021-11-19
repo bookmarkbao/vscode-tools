@@ -70,6 +70,42 @@ const convertEnvVariablesToObj = (env: string) => {
 
   return obj;
 };
+
+export const runTestByCommand = (testInfo: any) => {
+  const environmentVarialbes: string = "yarn";
+  const jestPath = "test:unit";
+  const jestConfigPath = "";
+  const collectCoverage = true
+
+  const runOptions: string[] = [ `--collectCoverage=${collectCoverage}`];
+  console.log('collectCoverageFrom',testInfo.collectCoverageFrom);
+  // 判断是否为目录，如果是则直接扫描
+  runOptions.push('--colors')
+  // runOptions.push(`--collectCoverageFrom=${testInfo.collectCoverageFrom}`)
+
+  let collectCoverageFrom='';
+    testInfo.collectCoverageFrom.forEach(item=>{
+      collectCoverageFrom += '"'+item+'",'
+    })
+  collectCoverageFrom = "'["+collectCoverageFrom.slice(0,-1)+"]'"
+
+  let command = `${environmentVarialbes} ${jestPath} ${testInfo.testPath} --collectCoverageFrom=${collectCoverageFrom}`;
+
+  if (runOptions) {
+    runOptions.forEach((option) => {
+      command += ` ${option}`;
+    });
+  }
+  let terminal = getTerminal(TERMINAL_NAME);
+  if (!terminal) {
+    terminal = window.createTerminal(TERMINAL_NAME);
+  }
+  terminal.show();
+  terminal.sendText(command.trim());
+};
+
+
+
 export const runTest = (
   filePath: string,
   testName?: string,
