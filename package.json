@@ -30,6 +30,10 @@
   "contributes": {
     "commands": [
       {
+        "command": "git.mergeSIT",
+        "title": "Merge to SIT"
+      },
+      {
         "command": "vtools.test",
         "title": "Test vTools"
       },
@@ -40,6 +44,18 @@
       {
         "command": "vtools.runTest",
         "title": "sRun"
+      },
+      {
+        "command": "fileExplorer.refreshFile",
+        "title": "Refresh",
+        "icon": {
+          "light": "resources/light/refresh.svg",
+          "dark": "resources/dark/refresh.svg"
+        }
+      },
+      {
+        "command": "fileExplorer.openFile",
+        "title": "Open File"
       }
     ],
     "menus": {
@@ -87,25 +103,29 @@
     },
     "viewsContainers": {
       "activitybar": [
-          {
-              "id": "vtoolsCommandCoverageList",
-              "title": "查看覆盖率",
-              "icon": "res/elephant.png"
-          }
+        {
+          "id": "vtoolsCommandCoverageList",
+          "title": "大向前端小工具",
+          "icon": "res/elephant.png"
+        }
       ]
     },
     "views": {
-      "vtoolsCommandCoverageList": [{
-        "id": "nodeDependencies",
-        "name": "nodeDependencies",
-        "icon": "media/dep.svg"
-      },{
-          "id": "defaultCoverageCommand",
-          "name": "常用指令"
-        },{
+      "vtoolsCommandCoverageList": [
+        {
+          "id": "nodeDependencies",
+          "name": "查看覆盖率",
+          "icon": "media/dep.svg"
+        },
+        {
+          "id": "fileExplorer",
+          "name": "覆盖率配置"
+        },
+        {
           "id": "customerCoverageCommand",
-          "name": "自定义指令"
-        }]
+          "name": "内置快捷键"
+        }
+      ]
     },
     "keybindings": [
       {
@@ -212,7 +232,9 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.6.2",
+    "@types/mkdirp": "^0.5.2",
     "@types/node": "^14.14.37",
+    "@types/rimraf": "^3.0.2",
     "@types/vscode": "^1.52.0",
     "eslint": "^7.23.0",
     "pkg-up": "^3.1.0",
@@ -220,5 +242,10 @@
     "types-package-json": "^2.0.31",
     "typescript": "^4.2.3",
     "vite": "^2.1.5"
+  },
+  "dependencies": {
+    "minimist": "^1.2.5",
+    "rimraf": "^3.0.2",
+    "mkdirp": "^0.5.1"
   }
 }

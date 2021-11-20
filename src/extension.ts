@@ -3,13 +3,15 @@
  * @Author: xiangjun
  * @Date: 2021-11-18 09:26:07
  * @LastEditors: sueRimn
- * @LastEditTime: 2021-11-19 16:28:05
+ * @LastEditTime: 2021-11-20 16:50:03
  */
 import { ExtensionContext, commands, window, workspace } from "vscode";
 import { ctx } from "./Context";
 import { executeCommand } from "./terminal";
 import { TERMINAL_NAME } from "./constants";
 import { runTest, runTestByCommand } from "./jest-test/index";
+import { FileExplorer } from './fileExplorer';
+import { mergeSIT } from './git-flow/index';
 // import { loadPackageJSON, loadJestConfig} from './utils'
 import { DepNodeProvider } from './nodeDependencies';
 
@@ -18,8 +20,15 @@ export const getTerminal = (terminalName: string) => {
   return window.terminals.find((t) => t.name === terminalName);
 };
 
+
 export async function activate(ext: ExtensionContext) {
   ctx.ext = ext;
+
+  // git系列
+  commands.registerCommand('git.mergeSIT', mergeSIT)
+
+
+
   // 左侧命令
   const rootPath = (workspace.workspaceFolders && (workspace.workspaceFolders.length > 0))
   ? workspace.workspaceFolders[0].uri.fsPath : undefined;
@@ -66,6 +75,10 @@ export async function activate(ext: ExtensionContext) {
     terminal.sendText(command.trim());
     executeCommand("ls");
   });
+
+
+  // Samples of `window.createView`
+	new FileExplorer(ext);
 }
 
 // export async function deactivate() {
