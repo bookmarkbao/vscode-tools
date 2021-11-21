@@ -1,10 +1,10 @@
 import fs from 'fs-extra'
-import { getManifest } from '../src/manifest'
+import { getPackage } from '../src/package'
 import { r, log } from './utils'
 
-export async function writeManifest() {
-  await fs.writeJSON(r('out/manifest.json'), await getManifest(), { spaces: 2 })
-  log('PRE', 'write manifest.json')
+export async function writePackage() {
+  await fs.writeJSON(r('out/package.json'), await getPackage(), { spaces: 2 })
+  log('PRE', 'write package.json')
 }
 
-writeManifest()
+writePackage()
