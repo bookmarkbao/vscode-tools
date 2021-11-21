@@ -3,6 +3,8 @@ import { execSync } from 'child_process'
 import fs from 'fs-extra'
 import chokidar from 'chokidar'
 import { r, port, isDev, log } from './utils'
+import path from 'node:path';
+import {writePackage} from 'write-pkg';
 
 /**
  * Stub index.html to use Vite in development
@@ -31,6 +33,15 @@ function writeManifest() {
 }
 
 writeManifest()
+
+
+
+
+await writePackage({foo: true});
+console.log('done');
+
+await writePackage(path.join('unicorn', 'package.json'), {foo: true});
+console.log('done');
 
 if (isDev) {
   // stubIndexHtml()
