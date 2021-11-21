@@ -3,8 +3,10 @@ import { getPackage } from '../src/package'
 import { r, log } from './utils'
 
 export async function writePackage() {
-  await fs.writeJSON(r('out/package.json'), await getPackage(), { spaces: 2 })
+  let pkgJson = await getPackage()
+  await fs.writeJSON(r('package.json'), pkgJson, { spaces: 2 })
   log('PRE', 'write package.json')
+  // log('PRE pkgJson', pkgJson)
 }
 
 writePackage()
