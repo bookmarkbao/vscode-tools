@@ -3,7 +3,7 @@
  * @Author: xiangjun
  * @Date: 2021-11-18 09:26:07
  * @LastEditors: sueRimn
- * @LastEditTime: 2021-11-20 16:50:03
+ * @LastEditTime: 2021-11-20 23:23:54
  */
 import { ExtensionContext, commands, window, workspace } from "vscode";
 import { ctx } from "./Context";
@@ -11,6 +11,7 @@ import { executeCommand } from "./terminal";
 import { TERMINAL_NAME } from "./constants";
 import { runTest, runTestByCommand } from "./jest-test/index";
 import { FileExplorer } from './fileExplorer';
+import { JestExplorer } from './jest-test/JestDataProvider'
 import { mergeSIT } from './git-flow/index';
 // import { loadPackageJSON, loadJestConfig} from './utils'
 import { DepNodeProvider } from './nodeDependencies';
@@ -76,9 +77,15 @@ export async function activate(ext: ExtensionContext) {
     executeCommand("ls");
   });
 
+  commands.registerCommand('jestExplorer.refresh',()=>{
+    console.log('jestExplorer.refresh');
+    
+  })
+
 
   // Samples of `window.createView`
 	new FileExplorer(ext);
+  new JestExplorer(ext)
 }
 
 // export async function deactivate() {

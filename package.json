@@ -27,42 +27,44 @@
   "extensionPack": [
     "antfu.browse-lite"
   ],
+  "config": {
+    "contributes" : {
+      "commands": "./package-config/commands-config.json"
+    }
+  },
   "contributes": {
-    "commands": [
-      {
-        "command": "git.mergeSIT",
-        "title": "Merge to SIT"
-      },
-      {
-        "command": "vtools.test",
-        "title": "Test vTools"
-      },
-      {
-        "command": "vtools.tRun",
-        "title": "tRun"
-      },
-      {
-        "command": "vtools.runTest",
-        "title": "sRun"
-      },
-      {
-        "command": "fileExplorer.refreshFile",
-        "title": "Refresh",
-        "icon": {
-          "light": "resources/light/refresh.svg",
-          "dark": "resources/dark/refresh.svg"
-        }
-      },
-      {
-        "command": "fileExplorer.openFile",
-        "title": "Open File"
-      }
-    ],
     "menus": {
+      "commandPalette": [
+        {
+          "command": "jestExplorer.refresh",
+          "when": "1 == 2"
+        }
+      ],
       "explorer/context": [
         {
           "when": "explorerResourceIsFolder || resourceFilename =~ /\\.spec\\.[tj]s$/",
           "command": "vtools.runTest",
+          "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "jestExplorer.refresh",
+          "group": "inline"
+        },
+        {
+          "command": "jestExplorer.refresh",
+          "group": "inline"
+        },
+        {
+          "command": "jestExplorer.refresh",
+          "group": "inline"
+        }
+      ],
+      "view/title": [
+        {
+          "command": "jestExplorer.refresh",
+          "when": "view == jestCoverageView",
           "group": "navigation"
         }
       ],
@@ -112,6 +114,11 @@
     },
     "views": {
       "vtoolsCommandCoverageList": [
+        {
+          "id": "jestCoverageView",
+          "name": "新版-查看覆盖率",
+          "icon": "media/dep.svg"
+        },
         {
           "id": "nodeDependencies",
           "name": "查看覆盖率",
@@ -237,6 +244,7 @@
     "@types/rimraf": "^3.0.2",
     "@types/vscode": "^1.52.0",
     "eslint": "^7.23.0",
+    "kolorist": "^1.5.0",
     "pkg-up": "^3.1.0",
     "tsup": "^4.8.21",
     "types-package-json": "^2.0.31",
@@ -244,8 +252,10 @@
     "vite": "^2.1.5"
   },
   "dependencies": {
+    "chokidar": "^3.5.2",
+    "fs-extra": "^10.0.0",
     "minimist": "^1.2.5",
-    "rimraf": "^3.0.2",
-    "mkdirp": "^0.5.1"
+    "mkdirp": "^0.5.1",
+    "rimraf": "^3.0.2"
   }
 }
