@@ -5,11 +5,12 @@
  * @LastEditors: sueRimn
  * @LastEditTime: 2021-11-21 00:09:25
  */
-import { window, ExtensionContext, Uri, Command, TreeDataProvider, Event, TreeItem, TreeItemCollapsibleState, ProviderResult } from "vscode";
+import { window, ExtensionContext, Uri, commands, Command, TreeDataProvider, Event, TreeItem, TreeItemCollapsibleState, ProviderResult } from "vscode";
 import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
 import { loadJestRunConfig } from '../utils'
+import { Config } from "../config";
 
 // 'test_orderIndex.spec.js': {
 //     testPath: 'orderList/index.spec.js',
@@ -27,6 +28,25 @@ class JestDataProvider implements TreeDataProvider<JestDataItem> {
     data: JestDataItem[];
 
     constructor() {
+        this._onDidChangeTreeData = new vscode.EventEmitter();
+		this.onDidChangeTreeData = this._onDidChangeTreeData.event;
+        this.data = []
+        this.loadData()
+        // this.data = coverageArr
+        // this.data = [
+        //     new JestDataItem('line1', [new JestDataItem('line1-sub1'), new JestDataItem('line1-sub2')]),
+        //     new JestDataItem('line2', [new JestDataItem('line2-sub1'), new JestDataItem('line2-sub2')]),
+        //     new JestDataItem('line3', [new JestDataItem('line3-sub1'), new JestDataItem('line3-sub2')])
+        // ];
+    }
+
+    loadData(){
+        // console.log('刷新啦～～～');
+        // this.data = []
+        // const pathDir = path.join(Config.root, "tests/unit/__utils__/index.js");
+        // delete require.cache[require.resolve(pathDir)]
+        // const pkg = require(pathDir)
+        // console.log(222, pkg);
         let coverageModule = loadJestRunConfig()
         let coverageArr: JestDataItem[] = []
         for (const key in coverageModule) {
@@ -38,12 +58,13 @@ class JestDataProvider implements TreeDataProvider<JestDataItem> {
             }))
         }
         this.data = coverageArr
-        // this.data = [
-        //     new JestDataItem('line1', [new JestDataItem('line1-sub1'), new JestDataItem('line1-sub2')]),
-        //     new JestDataItem('line2', [new JestDataItem('line2-sub1'), new JestDataItem('line2-sub2')]),
-        //     new JestDataItem('line3', [new JestDataItem('line3-sub1'), new JestDataItem('line3-sub2')])
-        // ];
+        // console.log(111, this.data);
     }
+
+    refresh() {
+        this.loadData()
+		this._onDidChangeTreeData.fire();
+	}
 
     getTreeItem(element: JestDataItem | JestItemDetail): TreeItem | Thenable<TreeItem> {
         return element;
@@ -94,6 +115,10 @@ export class JestExplorer {
         const treeDataProvider = new JestDataProvider();
         context.subscriptions.push(window.createTreeView('jestCoverageView', { treeDataProvider }));
         // vscode.commands.registerCommand('fileExplorer.openFile', (resource) => this.openResource(resource));
+        commands.registerCommand('jestExplorer.refresh',()=>{
+            console.log('jestExplorer.refresh111');
+            treeDataProvider.refresh()
+       })
     }
 
     private openResource(resource: Uri): void {

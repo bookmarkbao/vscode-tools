@@ -77,12 +77,6 @@ export async function activate(ext: ExtensionContext) {
     executeCommand("ls");
   });
 
-  commands.registerCommand('jestExplorer.refresh',()=>{
-    console.log('jestExplorer.refresh');
-    
-  })
-
-
   // Samples of `window.createView`
 	new FileExplorer(ext);
   new JestExplorer(ext)
