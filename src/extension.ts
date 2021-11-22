@@ -3,7 +3,7 @@
  * @Author: xiangjun
  * @Date: 2021-11-18 09:26:07
  * @LastEditors: sueRimn
- * @LastEditTime: 2021-11-20 23:23:54
+ * @LastEditTime: 2021-11-23 00:33:05
  */
 import { ExtensionContext, commands, window, workspace } from "vscode";
 import { ctx } from "./Context";
@@ -12,6 +12,8 @@ import { TERMINAL_NAME } from "./constants";
 import { runTest, runTestByCommand } from "./jest-test/index";
 import { FileExplorer } from './fileExplorer';
 import { JestExplorer } from './jest-test/JestDataProvider'
+import { ZxExplorer } from './zx-mjs/ZxDataProvider'
+
 import { mergeSIT } from './git-flow/index';
 // import { loadPackageJSON, loadJestConfig} from './utils'
 import { DepNodeProvider } from './nodeDependencies';
@@ -80,6 +82,7 @@ export async function activate(ext: ExtensionContext) {
   // Samples of `window.createView`
 	new FileExplorer(ext);
   new JestExplorer(ext)
+  new ZxExplorer(ext)
 }
 
 // export async function deactivate() {

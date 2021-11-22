@@ -16,7 +16,9 @@ export async function getPackage() {
     // pkgJson.permissions?.push('webNavigation')
   }
   let contributes = pkgTpl.contributes
-      contributes.commands = configCommands
+      // contributes.commands = configCommands
+      console.log(configCommands);
+      
   
   // 赋值回去
   pkg.contributes = contributes

@@ -64,6 +64,10 @@
           "light": "resources/light/refresh.svg",
           "dark": "resources/dark/refresh.svg"
         }
+      },
+      {
+        "command": "zxExplorer.zxRun",
+        "title": "执行脚本"
       }
     ],
     "menus": {
@@ -82,15 +86,8 @@
       ],
       "view/item/context": [
         {
-          "command": "jestExplorer.refresh",
-          "group": "inline"
-        },
-        {
-          "command": "jestExplorer.refresh",
-          "group": "inline"
-        },
-        {
-          "command": "jestExplorer.refresh",
+          "command": "zxExplorer.zxRun",
+          "when": "view == taskCommandView",
           "group": "inline"
         }
       ],
@@ -148,6 +145,10 @@
     "views": {
       "vtoolsCommandCoverageList": [
         {
+          "id": "taskCommandView",
+          "name": "任务流管理"
+        },
+        {
           "id": "jestCoverageView",
           "name": "新版-查看覆盖率",
           "icon": "media/dep.svg"
@@ -160,10 +161,6 @@
         {
           "id": "fileExplorer",
           "name": "覆盖率配置"
-        },
-        {
-          "id": "customerCoverageCommand",
-          "name": "内置快捷键"
         }
       ]
     },
@@ -173,96 +170,7 @@
         "key": "ctrl+alt+N",
         "when": "resourceFilename =~ /\\.spec\\.[tj]s$/"
       }
-    ],
-    "configuration": {
-      "type": "object",
-      "title": "Vite",
-      "properties": {
-        "vite.autoStart": {
-          "type": "boolean",
-          "default": true,
-          "description": "Start Vite server with VS Code"
-        },
-        "vite.browserType": {
-          "type": "string",
-          "enum": [
-            "embedded",
-            "system"
-          ],
-          "default": "embedded",
-          "description": "Browser to open Vite app"
-        },
-        "vite.port": {
-          "type": "number",
-          "default": 4000,
-          "description": "Port for Vite server"
-        },
-        "vite.host": {
-          "type": "string",
-          "default": "localhost",
-          "description": "Host for Vite server"
-        },
-        "vite.base": {
-          "type": "string",
-          "default": "",
-          "description": "Base path for open the app"
-        },
-        "vite.https": {
-          "type": "boolean",
-          "default": false,
-          "description": "Enable https"
-        },
-        "vite.pingInterval": {
-          "type": "number",
-          "default": 200,
-          "description": "Interval in mileseconds to try on pinging for server to start"
-        },
-        "vite.maximumTimeout": {
-          "type": "number",
-          "default": 30000,
-          "description": "Maximum timeout in mileseconds waiting for server to start"
-        },
-        "vite.showTerminal": {
-          "type": "boolean",
-          "default": false,
-          "description": "Force on terminal when server starts"
-        },
-        "vite.notifyOnStarted": {
-          "type": "boolean",
-          "default": true,
-          "description": "Send notification when server starts"
-        },
-        "vite.devCommand": {
-          "type": "string",
-          "description": "Command for dev"
-        },
-        "vite.buildCommand": {
-          "type": "string",
-          "default": "npm run build",
-          "description": "Command for build"
-        },
-        "vite.vitepress": {
-          "type": "boolean",
-          "default": true,
-          "description": "Use vitepress if available"
-        },
-        "vite.vitepressBase": {
-          "type": "string",
-          "default": "",
-          "description": "Base path for Vitepress"
-        },
-        "vite.vitepressAutoRouting": {
-          "type": "boolean",
-          "default": false,
-          "description": "Navigate to the page you are working on"
-        },
-        "vite.open": {
-          "type": "boolean",
-          "default": true,
-          "description": "Open app on server ready"
-        }
-      }
-    }
+    ]
   },
   "scripts": {
     "vscode:prepublish": "npm run build",
