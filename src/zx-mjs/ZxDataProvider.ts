@@ -3,7 +3,7 @@
  * @Author: xiangjun
  * @Date: 2021-11-20 17:10:09
  * @LastEditors: sueRimn
- * @LastEditTime: 2021-11-23 03:01:48
+ * @LastEditTime: 2021-11-24 23:33:44
  */
 import { window, ExtensionContext, Uri, commands, Command, TreeDataProvider, Event, TreeItem, TreeItemCollapsibleState, ProviderResult } from "vscode";
 import * as vscode from 'vscode';
@@ -119,16 +119,25 @@ export class ZxExplorer {
         commands.registerCommand('zxExplorer.openFile', (resource) => this.openResource(resource));
         commands.registerCommand('zxExplorer.zxRun',(info: ZxDataItem)=>{
             console.log('run',info)
+            console.log('run',info instanceof ZxDataItem )
             // const pathFile = path.join(Config.root, info.key);
-            if (fs.existsSync(info.filePath)) {
+            if (info instanceof ZxDataItem && fs.existsSync(info.filePath)) {
                 const command = `zx ${info.filePath}`
-                let terminal = getTerminal(info.key);
+                let terminal = getTerminal(info.filePath.match(/\w*.mjs/)[0]);
                 if (!terminal) {
-                  terminal = window.createTerminal(info.key);
+                  terminal = window.createTerminal(info.filePath.match(/\w*.mjs/)[0]);
                 }
                 terminal.show();
                 terminal.sendText(command.trim());
-             }else{
+             } else if(fs.existsSync(info._fsPath)){
+                const command = `zx ${info._fsPath}`
+                let terminal = getTerminal(info._fsPath.match(/\w*.mjs/)[0]);
+                if (!terminal) {
+                  terminal = window.createTerminal(info._fsPath.match(/\w*.mjs/)[0]);
+                }
+                terminal.show();
+                terminal.sendText(command.trim());
+             } else {
                 window.showErrorMessage(`${info.fileName}配置文件不存在，请检查！`, 300);
             }
        })

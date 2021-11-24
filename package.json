@@ -46,18 +46,6 @@
         "title": "sRun"
       },
       {
-        "command": "fileExplorer.refreshFile",
-        "title": "Refresh",
-        "icon": {
-          "light": "resources/light/refresh.svg",
-          "dark": "resources/dark/refresh.svg"
-        }
-      },
-      {
-        "command": "fileExplorer.openFile",
-        "title": "Open File"
-      },
-      {
         "command": "jestExplorer.refresh",
         "title": "Refresh",
         "icon": {
@@ -67,7 +55,7 @@
       },
       {
         "command": "zxExplorer.zxRun",
-        "title": "执行脚本"
+        "title": "taskRun"
       }
     ],
     "menus": {
@@ -116,6 +104,11 @@
         }
       ],
       "editor/title": [
+        {
+          "when": "resourceFilename =~ /\\.mjs$/",
+          "command": "zxExplorer.zxRun",
+          "group": "navigation"
+        },
         {
           "when": "resourceFilename =~ /\\.spec\\.[tj]s$/",
           "command": "vtools.test",
