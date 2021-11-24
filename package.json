@@ -1,9 +1,9 @@
 {
-  "name": "vscode-tool123",
+  "name": "dx-fe-tools",
   "preview": true,
-  "displayName": "tool123",
-  "description": "VS Code for tool123",
-  "version": "0.2.6",
+  "displayName": "大向前端小工具",
+  "description": "提效工具：日常工作流管理、执行任务脚本、代码片段管理",
+  "version": "0.2.8",
   "publisher": "daxiang",
   "license": "MIT",
   "icon": "res/elephant.png",
