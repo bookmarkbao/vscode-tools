@@ -6,7 +6,6 @@ export async function writePackage() {
   let pkgJson = await getPackage()
   await fs.writeJSON(r('package.json'), pkgJson, { spaces: 2 })
   log('PRE', 'write package.json')
-  // log('PRE pkgJson', pkgJson)
 }
 
 writePackage()
