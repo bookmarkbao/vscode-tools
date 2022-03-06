@@ -98,7 +98,7 @@
       "vtoolsCommandCoverageList": [
         {
           "id": "taskCommandView",
-          "name": "任务流管理"
+          "name": "任务流管理-666"
         },{
           "id": "jestCoverageView",
           "name": "新版-查看覆盖率",

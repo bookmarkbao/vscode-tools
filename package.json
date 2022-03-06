@@ -1,5 +1,5 @@
 {
-  "name": "dx-fe-tools",
+  "name": "dx-fe-tools666",
   "preview": true,
   "displayName": "大向前端小工具",
   "description": "提效工具：日常工作流管理、执行任务脚本、代码片段管理",
@@ -139,7 +139,7 @@
       "vtoolsCommandCoverageList": [
         {
           "id": "taskCommandView",
-          "name": "任务流管理"
+          "name": "任务流管理-666"
         },
         {
           "id": "jestCoverageView",

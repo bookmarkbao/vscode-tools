@@ -2,21 +2,14 @@
  * @Descripttion: 
  * @Author: xiangjun
  * @Date: 2021-11-18 09:26:07
- * @LastEditors: sueRimn
- * @LastEditTime: 2021-11-23 03:33:36
+ * @LastEditors: xiangjun02
+ * @LastEditTime: 2022-03-06 17:31:51
  */
 import { ExtensionContext, commands, window, workspace } from "vscode";
 import { ctx } from "./Context";
 import { executeCommand } from "./terminal";
 import { TERMINAL_NAME } from "./constants";
-import { runTest, runTestByCommand } from "./jest-test/index";
-// import { FileExplorer } from './fileExplorer';
-import { JestExplorer } from './jest-test/JestDataProvider'
-import { ZxExplorer } from './zx-mjs/ZxDataProvider'
-
-import { mergeSIT } from './git-flow/index';
 // import { loadPackageJSON, loadJestConfig} from './utils'
-import { DepNodeProvider } from './nodeDependencies';
 
 // 读取当前的terminal
 export const getTerminal = (terminalName: string) => {
@@ -27,33 +20,25 @@ export const getTerminal = (terminalName: string) => {
 export async function activate(ext: ExtensionContext) {
   ctx.ext = ext;
 
-  // git系列
-  commands.registerCommand('git.mergeSIT', mergeSIT)
-
-
-
   // 左侧命令
   const rootPath = (workspace.workspaceFolders && (workspace.workspaceFolders.length > 0))
-  ? workspace.workspaceFolders[0].uri.fsPath : undefined;
-  	// Samples of `window.registerTreeDataProvider`
-	const nodeDependenciesProvider = new DepNodeProvider(rootPath);
-	window.registerTreeDataProvider('nodeDependencies', nodeDependenciesProvider);
+    ? workspace.workspaceFolders[0].uri.fsPath : undefined;
+  console.log(rootPath)
 
-
-
-  commands.registerCommand("vtools.test", (testInfo:any) => {
+  commands.registerCommand("vtools.test", (testInfo: any) => {
     // executeCommand("tree");
-     runTestByCommand(testInfo)
+    //  runTestByCommand(testInfo)
   });
-  
+
 
   // sRun
   commands.registerCommand("vtools.runTest", (uri) => {
     let filePath = uri?._fsPath.replace(workspace.rootPath || "", "") || "";
     // 根据路径去匹配文件，看文件中是否已经有配置
-    if(filePath){
-      runTest(filePath);
-    }else{
+    if (filePath) {
+      // runTest(filePath);
+      console.log(filePath)
+    } else {
       window.showErrorMessage('❗️ 路径不正确，请检查')
     }
   });
@@ -78,13 +63,5 @@ export async function activate(ext: ExtensionContext) {
     terminal.sendText(command.trim());
     executeCommand("ls");
   });
-
-  // Samples of `window.createView`
-	// new FileExplorer(ext);
-  new JestExplorer(ext)
-  new ZxExplorer(ext)
 }
 
-// export async function deactivate() {
-//   closeTerminal();
-// }

@@ -1,3 +1,10 @@
+/*
+ * @Descripttion: 
+ * @Author: xiangjun02
+ * @Date: 2022-03-06 16:55:50
+ * @LastEditors: xiangjun02
+ * @LastEditTime: 2022-03-06 19:23:58
+ */
 import * as path from 'path';
 export const DEFAULT_TEST_FILE_PATTERNS = [
   '**/*.{test,spec}.{js,jsx,ts,tsx}',
