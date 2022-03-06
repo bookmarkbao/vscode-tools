@@ -3,10 +3,10 @@
  * @Author: xiangjun
  * @Date: 2021-11-18 09:26:07
  * @LastEditors: xiangjun02
- * @LastEditTime: 2022-03-06 21:28:27
+ * @LastEditTime: 2022-03-06 21:39:16
  */
 import { ExtensionContext, commands, window, workspace } from "vscode";
-import { ctx } from "./Context";
+// import { ctx } from "./Context";
 import { basename } from "path";
 // import { executeCommand } from "./terminal";
 // import { TERMINAL_NAME } from "./constants";
@@ -23,7 +23,7 @@ export const getTerminal = (terminalName: string) => {
 };
 
 export async function activate(ext: ExtensionContext) {
-  ctx.ext = ext;
+  // ctx.ext = ext;
 
   // 左侧命令
   // const rootPath = (workspace.workspaceFolders && (workspace.workspaceFolders.length > 0))
