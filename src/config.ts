@@ -1,3 +1,10 @@
+/*
+ * @Descripttion: 
+ * @Author: xiangjun02
+ * @Date: 2022-03-06 16:55:50
+ * @LastEditors: xiangjun02
+ * @LastEditTime: 2022-03-06 17:32:23
+ */
 import { workspace } from 'vscode'
 
 export function getConfig<T>(key: string, v?: T) {
@@ -5,6 +12,10 @@ export function getConfig<T>(key: string, v?: T) {
 }
 
 export const Config = {
+  get jestConfig(){
+    return getJestConfig('autoStart', true)
+  },
+
   get root() {
     return workspace.workspaceFolders?.[0]?.uri?.fsPath || ''
   },

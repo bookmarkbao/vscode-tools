@@ -5,7 +5,7 @@
   "tasks": [
     {
       "type": "npm",
-      "script": "dev",
+      "script": "yarn",
       "isBackground": true,
       "problemMatcher": {
         "fileLocation": "relative",
@@ -30,6 +30,13 @@
         "kind": "build",
         "isDefault": true
       }
+    },
+    {
+      "type": "npm",
+      "script": "dev",
+      "problemMatcher": [],
+      "label": "npm: dev",
+      "detail": "npm run build -- --watch"
     }
   ]
 }

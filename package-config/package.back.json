@@ -1,0 +1,55 @@
+{
+  "name": "dx-fe-tools",
+  "preview": true,
+  "displayName": "大向前端小工具",
+  "description": "提效工具：日常工作流管理、执行任务脚本、代码片段管理",
+  "version": "0.2.8",
+  "publisher": "daxiang",
+  "license": "MIT",
+  "icon": "res/elephant.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bookmarkbao/vscode-tools"
+  },
+  "engines": {
+    "vscode": "^1.52.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [ "*"],
+  "main": "./dist/extension.js",
+  "extensionPack": [ "antfu.browse-lite"],
+  "contributes": {},
+  "scripts": {
+    "vscode:prepublish": "npm run build",
+    "build": "tsup src/extension.ts --dts --external=vscode",
+    "dev": "npm run build -- --watch",
+    "dev:prepare": "esno scripts/prepare.ts",
+    "release": "npx bumpp --commit --tag --push",
+    "test:dx": "echo 123"
+  },
+  "devDependencies": {
+    "@types/mkdirp": "^0.5.2",
+    "@types/node": "^14.14.37",
+    "@types/rimraf": "^3.0.2",
+    "@types/vscode": "^1.52.0",
+    "eslint": "^7.23.0",
+    "esno": "^0.10.0",
+    "kolorist": "^1.5.0",
+    "pkg-up": "^3.1.0",
+    "tsup": "^4.8.21",
+    "types-package-json": "^2.0.31",
+    "typescript": "^4.2.3",
+    "vite": "^2.1.5"
+  },
+  "dependencies": {
+    "chokidar": "^3.5.2",
+    "fs-extra": "^10.0.0",
+    "minimist": "^1.2.5",
+    "mkdirp": "^0.5.1",
+    "rimraf": "^3.0.2",
+    "webextension-polyfill": "^0.8.0",
+    "write-pkg": "^5.0.0"
+  }
+}
