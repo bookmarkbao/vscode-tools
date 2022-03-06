@@ -1,5 +1,5 @@
 {
-  "name": "dx-fe-tools666",
+  "name": "dx-fe-tools",
   "preview": true,
   "displayName": "大向前端小工具",
   "description": "提效工具：日常工作流管理、执行任务脚本、代码片段管理",
@@ -18,10 +18,9 @@
     "Other"
   ],
   "activationEvents": [
-    "*",
-    "onFileSystem:vite.config.js",
-    "onFileSystem:vite.config.ts",
-    "onView:nodeDependencies"
+    "onCommand:easySnippet.run",
+    "onCommand:snippetExplorer.open",
+    "onView:snippetExplorer"
   ],
   "main": "./dist/extension.js",
   "extensionPack": [
@@ -30,140 +29,180 @@
   "contributes": {
     "commands": [
       {
-        "command": "git.mergeSIT",
-        "title": "Merge to SIT"
+        "command": "easySnippet.run",
+        "title": "Create Snippet from Selection",
+        "category": "Easy Snippet"
       },
       {
-        "command": "vtools.test",
-        "title": "Test vTools"
+        "command": "snippetExplorer.open",
+        "title": "Open Snippet View",
+        "category": "Easy Snippet"
       },
       {
-        "command": "vtools.tRun",
-        "title": "tRun"
+        "command": "snippetExplorer.search",
+        "title": "Search",
+        "category": "Easy Snippet",
+        "icon": {
+          "light": "resources/light/search.svg",
+          "dark": "resources/dark/search.svg"
+        }
       },
       {
-        "command": "vtools.runTest",
-        "title": "sRun"
-      },
-      {
-        "command": "jestExplorer.refresh",
+        "command": "snippetExplorer.refresh",
         "title": "Refresh",
+        "category": "Easy Snippet",
         "icon": {
           "light": "resources/light/refresh.svg",
           "dark": "resources/dark/refresh.svg"
         }
       },
       {
-        "command": "zxExplorer.zxRun",
-        "title": "taskRun"
+        "command": "snippetExplorer.addGroup",
+        "title": "Add Group",
+        "category": "Easy Snippet",
+        "icon": {
+          "light": "resources/light/add.svg",
+          "dark": "resources/dark/add.svg"
+        }
+      },
+      {
+        "command": "snippetExplorer.addSnippet",
+        "title": "Add Snippet",
+        "category": "Easy Snippet",
+        "icon": {
+          "light": "resources/light/add.svg",
+          "dark": "resources/dark/add.svg"
+        }
+      },
+      {
+        "command": "snippetExplorer.editGroup",
+        "title": "Edit Group",
+        "category": "Easy Snippet",
+        "icon": {
+          "light": "resources/light/edit.svg",
+          "dark": "resources/dark/edit.svg"
+        }
+      },
+      {
+        "command": "snippetExplorer.deleteGroup",
+        "title": "Delete Group",
+        "category": "Easy Snippet",
+        "icon": {
+          "light": "resources/light/delete.svg",
+          "dark": "resources/dark/delete.svg"
+        }
+      },
+      {
+        "command": "snippetExplorer.deleteSnippet",
+        "title": "Delete Snippet",
+        "category": "Easy Snippet",
+        "icon": {
+          "light": "resources/light/delete.svg",
+          "dark": "resources/dark/delete.svg"
+        }
+      },
+      {
+        "command": "snippetExplorer.editSnippet",
+        "title": "Edit Snippet",
+        "category": "Easy Snippet",
+        "icon": {
+          "light": "resources/light/edit.svg",
+          "dark": "resources/dark/edit.svg"
+        }
       }
     ],
+    "keybindings": [
+      {
+        "command": "easySnippet.run",
+        "key": "ctrl+k shift+ctrl+s",
+        "mac": "cmd+k shift+cmd+s",
+        "when": "editorTextFocus"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "snippet-explorer",
+          "title": "Snippet-test",
+          "icon": "media/snippet.svg"
+        }
+      ]
+    },
+    "views": {
+      "snippet-explorer": [
+        {
+          "id": "snippetExplorer",
+          "name": "Snippet Manager"
+        }
+      ]
+    },
     "menus": {
       "commandPalette": [
         {
-          "command": "jestExplorer.refresh",
+          "command": "easySnippet.run",
+          "when": "editorHasSelection"
+        },
+        {
+          "command": "snippetExplorer.addSnippet",
+          "when": "1 == 2"
+        },
+        {
+          "command": "snippetExplorer.editGroup",
+          "when": "1 == 2"
+        },
+        {
+          "command": "snippetExplorer.deleteGroup",
+          "when": "1 == 2"
+        },
+        {
+          "command": "snippetExplorer.deleteSnippet",
+          "when": "1 == 2"
+        },
+        {
+          "command": "snippetExplorer.editSnippet",
           "when": "1 == 2"
         }
       ],
-      "explorer/context": [
+      "view/title": [
         {
-          "when": "explorerResourceIsFolder || resourceFilename =~ /\\.spec\\.[tj]s$/",
-          "command": "vtools.runTest",
+          "command": "snippetExplorer.search",
+          "when": "view == snippetExplorer",
+          "group": "navigation"
+        },
+        {
+          "command": "snippetExplorer.refresh",
+          "when": "view == snippetExplorer",
+          "group": "navigation"
+        },
+        {
+          "command": "snippetExplorer.addGroup",
+          "when": "view == snippetExplorer",
           "group": "navigation"
         }
       ],
       "view/item/context": [
         {
-          "command": "zxExplorer.zxRun",
-          "when": "view == taskCommandView",
+          "command": "snippetExplorer.addSnippet",
+          "when": "view == snippetExplorer && viewItem == group",
+          "group": "inline@1"
+        },
+        {
+          "command": "snippetExplorer.editGroup",
+          "when": "view == snippetExplorer && viewItem == group",
+          "group": "inline@2"
+        },
+        {
+          "command": "snippetExplorer.deleteGroup",
+          "when": "view == snippetExplorer && viewItem == group",
+          "group": "inline@3"
+        },
+        {
+          "command": "snippetExplorer.deleteSnippet",
+          "when": "view == snippetExplorer && viewItem == snippet",
           "group": "inline"
         }
-      ],
-      "view/title": [
-        {
-          "command": "jestExplorer.refresh",
-          "when": "view == jestCoverageView",
-          "group": "navigation"
-        }
-      ],
-      "editor/title/run": [
-        {
-          "when": "resourceFilename =~ /\\.spec\\.[tj]s$/",
-          "command": "vtools.runTest",
-          "group": "navigation"
-        },
-        {
-          "when": "resourceFilename =~ /\\.spec\\.[tj]s$/",
-          "command": "vtools.test",
-          "group": "navigation"
-        },
-        {
-          "when": "resourceFilename =~ /\\.spec\\.[tj]s$/",
-          "command": "vtools.tRun",
-          "group": "navigation"
-        }
-      ],
-      "editor/title": [
-        {
-          "when": "resourceFilename =~ /\\.mjs$/",
-          "command": "zxExplorer.zxRun",
-          "group": "navigation"
-        },
-        {
-          "when": "resourceFilename =~ /\\.spec\\.[tj]s$/",
-          "command": "vtools.test",
-          "group": "navigation"
-        },
-        {
-          "when": "resourceFilename =~ /\\.spec\\.[tj]s$/",
-          "command": "vtools.runTest",
-          "group": "navigation"
-        },
-        {
-          "when": "resourceFilename =~ /\\.spec\\.[tj]s$/",
-          "command": "vtools.tRun",
-          "group": "navigation"
-        }
       ]
-    },
-    "viewsContainers": {
-      "activitybar": [
-        {
-          "id": "vtoolsCommandCoverageList",
-          "title": "大向前端小工具",
-          "icon": "res/elephant.png"
-        }
-      ]
-    },
-    "views": {
-      "vtoolsCommandCoverageList": [
-        {
-          "id": "taskCommandView",
-          "name": "任务流管理-666"
-        },
-        {
-          "id": "jestCoverageView",
-          "name": "新版-查看覆盖率",
-          "icon": "media/dep.svg"
-        },
-        {
-          "id": "nodeDependencies",
-          "name": "查看覆盖率",
-          "icon": "media/dep.svg"
-        },
-        {
-          "id": "fileExplorer",
-          "name": "覆盖率配置"
-        }
-      ]
-    },
-    "keybindings": [
-      {
-        "command": "vtools.runTest",
-        "key": "ctrl+alt+N",
-        "when": "resourceFilename =~ /\\.spec\\.[tj]s$/"
-      }
-    ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run build",
@@ -196,5 +235,7 @@
     "webextension-polyfill": "^0.8.0",
     "write-pkg": "^5.0.0"
   },
-  "test123": "ok123444"
+  "extensionKind": [
+    "ui"
+  ]
 }

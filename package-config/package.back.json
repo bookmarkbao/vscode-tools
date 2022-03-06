@@ -1,5 +1,5 @@
 {
-  "name": "dx-fe-tools666",
+  "name": "dx-fe-tools",
   "preview": true,
   "displayName": "大向前端小工具",
   "description": "提效工具：日常工作流管理、执行任务脚本、代码片段管理",
@@ -17,16 +17,9 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [
-    "*",
-    "onFileSystem:vite.config.js",
-    "onFileSystem:vite.config.ts",
-    "onView:nodeDependencies"
-  ],
+  "activationEvents": [ "*"],
   "main": "./dist/extension.js",
-  "extensionPack": [
-    "antfu.browse-lite"
-  ],
+  "extensionPack": [ "antfu.browse-lite"],
   "contributes": {},
   "scripts": {
     "vscode:prepublish": "npm run build",
