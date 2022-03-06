@@ -1,0 +1,124 @@
+{
+  "contributes": {
+    "commands": [{
+        "command": "git.mergeSIT",
+        "title": "Merge to SIT"
+      },
+      {
+        "command": "vtools.test",
+        "title": "Test vTools"
+      },
+      {
+        "command": "vtools.tRun",
+        "title": "tRun"
+      },
+      {
+        "command": "vtools.runTest",
+        "title": "sRun"
+      },
+      {
+        "command": "jestExplorer.refresh",
+        "title": "Refresh",
+        "icon": {
+          "light": "resources/light/refresh.svg",
+          "dark": "resources/dark/refresh.svg"
+        }
+      },
+      {
+        "command": "zxExplorer.zxRun",
+        "title": "taskRun"
+      }
+    ],
+    "menus": {
+      "commandPalette": [{
+        "command": "jestExplorer.refresh",
+        "when": "1 == 2"
+      }],
+      "explorer/context": [{
+        "when": "explorerResourceIsFolder || resourceFilename =~ /\\.spec\\.[tj]s$/",
+        "command": "vtools.runTest",
+        "group": "navigation"
+      }],
+      "view/item/context": [{
+          "command": "zxExplorer.zxRun",
+          "when": "view == taskCommandView",
+          "group": "inline"
+        }
+      ],
+      "view/title": [{
+        "command": "jestExplorer.refresh",
+        "when": "view == jestCoverageView",
+        "group": "navigation"
+      }],
+      "editor/title/run": [{
+          "when": "resourceFilename =~ /\\.spec\\.[tj]s$/",
+          "command": "vtools.runTest",
+          "group": "navigation"
+        },
+        {
+          "when": "resourceFilename =~ /\\.spec\\.[tj]s$/",
+          "command": "vtools.test",
+          "group": "navigation"
+        },
+        {
+          "when": "resourceFilename =~ /\\.spec\\.[tj]s$/",
+          "command": "vtools.tRun",
+          "group": "navigation"
+        }
+      ],
+      "editor/title": [{
+        "when": "resourceFilename =~ /\\.mjs$/",
+        "command": "zxExplorer.zxRun",
+        "group": "navigation"
+      },{
+          "when": "resourceFilename =~ /\\.spec\\.[tj]s$/",
+          "command": "vtools.test",
+          "group": "navigation"
+        },
+        {
+          "when": "resourceFilename =~ /\\.spec\\.[tj]s$/",
+          "command": "vtools.runTest",
+          "group": "navigation"
+        },
+        {
+          "when": "resourceFilename =~ /\\.spec\\.[tj]s$/",
+          "command": "vtools.tRun",
+          "group": "navigation"
+        }
+      ]
+    },
+    "viewsContainers": {
+      "activitybar": [{
+        "id": "vtoolsCommandCoverageList",
+        "title": "大向前端小工具",
+        "icon": "res/elephant.png"
+      }]
+    },
+    "views": {
+      "vtoolsCommandCoverageList": [
+        {
+          "id": "taskCommandView",
+          "name": "任务流管理-666"
+        },{
+          "id": "jestCoverageView",
+          "name": "新版-查看覆盖率",
+          "icon": "media/dep.svg"
+        },
+        {
+          "id": "nodeDependencies",
+          "name": "查看覆盖率",
+          "icon": "media/dep.svg"
+        },
+        {
+          "id": "fileExplorer",
+          "name": "覆盖率配置"
+        }
+      ]
+    },
+    "keybindings": [{
+      "command": "vtools.runTest",
+      "key": "ctrl+alt+N",
+      "when": "resourceFilename =~ /\\.spec\\.[tj]s$/"
+    }]
+  }
+}

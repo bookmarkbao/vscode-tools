@@ -1,15 +1,15 @@
 {
-  "name": "vscode-tool123",
+  "name": "dx-fe-tools",
   "preview": true,
-  "displayName": "tool123",
-  "description": "VS Code for tool123",
-  "version": "0.2.5",
-  "publisher": "antfu",
+  "displayName": "大向前端小工具",
+  "description": "提效工具：日常工作流管理、执行任务脚本、代码片段管理",
+  "version": "0.2.8",
+  "publisher": "daxiang",
   "license": "MIT",
-  "icon": "res/icon.png",
+  "icon": "res/elephant.png",
   "repository": {
     "type": "git",
-    "url": "https://github.com/antfu/vscode-vite"
+    "url": "https://github.com/bookmarkbao/vscode-tools"
   },
   "engines": {
     "vscode": "^1.52.0"
@@ -18,9 +18,9 @@
     "Other"
   ],
   "activationEvents": [
-    "*",
-    "onFileSystem:vite.config.js",
-    "onFileSystem:vite.config.ts"
+    "onCommand:easySnippet.run",
+    "onCommand:snippetExplorer.open",
+    "onView:snippetExplorer"
   ],
   "main": "./dist/extension.js",
   "extensionPack": [
@@ -29,141 +29,213 @@
   "contributes": {
     "commands": [
       {
-        "command": "vite.stop",
-        "category": "Vite",
-        "title": "Stop Vite Server"
+        "command": "easySnippet.run",
+        "title": "Create Snippet from Selection",
+        "category": "Easy Snippet"
       },
       {
-        "command": "vite.restart",
-        "category": "Vite",
-        "title": "Start Vite Server"
+        "command": "snippetExplorer.open",
+        "title": "Open Snippet View",
+        "category": "Easy Snippet"
       },
       {
-        "command": "vite.open",
-        "category": "Vite",
-        "title": "Open Vite app"
+        "command": "snippetExplorer.search",
+        "title": "Search",
+        "category": "Easy Snippet",
+        "icon": {
+          "light": "resources/light/search.svg",
+          "dark": "resources/dark/search.svg"
+        }
       },
       {
-        "command": "vite.showCommands",
-        "category": "Vite",
-        "title": "Show commands",
-        "icon": "$(symbol-event)"
+        "command": "snippetExplorer.refresh",
+        "title": "Refresh",
+        "category": "Easy Snippet",
+        "icon": {
+          "light": "resources/light/refresh.svg",
+          "dark": "resources/dark/refresh.svg"
+        }
+      },
+      {
+        "command": "snippetExplorer.addGroup",
+        "title": "Add Group",
+        "category": "Easy Snippet",
+        "icon": {
+          "light": "resources/light/add.svg",
+          "dark": "resources/dark/add.svg"
+        }
+      },
+      {
+        "command": "snippetExplorer.addSnippet",
+        "title": "Add Snippet",
+        "category": "Easy Snippet",
+        "icon": {
+          "light": "resources/light/add.svg",
+          "dark": "resources/dark/add.svg"
+        }
+      },
+      {
+        "command": "snippetExplorer.editGroup",
+        "title": "Edit Group",
+        "category": "Easy Snippet",
+        "icon": {
+          "light": "resources/light/edit.svg",
+          "dark": "resources/dark/edit.svg"
+        }
+      },
+      {
+        "command": "snippetExplorer.deleteGroup",
+        "title": "Delete Group",
+        "category": "Easy Snippet",
+        "icon": {
+          "light": "resources/light/delete.svg",
+          "dark": "resources/dark/delete.svg"
+        }
+      },
+      {
+        "command": "snippetExplorer.deleteSnippet",
+        "title": "Delete Snippet",
+        "category": "Easy Snippet",
+        "icon": {
+          "light": "resources/light/delete.svg",
+          "dark": "resources/dark/delete.svg"
+        }
+      },
+      {
+        "command": "snippetExplorer.editSnippet",
+        "title": "Edit Snippet",
+        "category": "Easy Snippet",
+        "icon": {
+          "light": "resources/light/edit.svg",
+          "dark": "resources/dark/edit.svg"
+        }
       }
     ],
-    "menus": {
-      "editor/title": [
+    "keybindings": [
+      {
+        "command": "easySnippet.run",
+        "key": "ctrl+k shift+ctrl+s",
+        "mac": "cmd+k shift+cmd+s",
+        "when": "editorTextFocus"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
         {
-          "when": "resourceScheme == webview-panel && browse-lite-active",
-          "command": "vite.showCommands",
-          "group": "navigation"
+          "id": "snippet-explorer",
+          "title": "Snippet-666",
+          "icon": "media/snippet.svg"
         }
       ]
     },
-    "configuration": {
-      "type": "object",
-      "title": "Vite",
-      "properties": {
-        "vite.autoStart": {
-          "type": "boolean",
-          "default": true,
-          "description": "Start Vite server with VS Code"
-        },
-        "vite.browserType": {
-          "type": "string",
-          "enum": [
-            "embedded",
-            "system"
-          ],
-          "default": "embedded",
-          "description": "Browser to open Vite app"
-        },
-        "vite.port": {
-          "type": "number",
-          "default": 4000,
-          "description": "Port for Vite server"
-        },
-        "vite.host": {
-          "type": "string",
-          "default": "localhost",
-          "description": "Host for Vite server"
-        },
-        "vite.base": {
-          "type": "string",
-          "default": "",
-          "description": "Base path for open the app"
-        },
-        "vite.https": {
-          "type": "boolean",
-          "default": false,
-          "description": "Enable https"
-        },
-        "vite.pingInterval": {
-          "type": "number",
-          "default": 200,
-          "description": "Interval in mileseconds to try on pinging for server to start"
-        },
-        "vite.maximumTimeout": {
-          "type": "number",
-          "default": 30000,
-          "description": "Maximum timeout in mileseconds waiting for server to start"
-        },
-        "vite.showTerminal": {
-          "type": "boolean",
-          "default": false,
-          "description": "Force on terminal when server starts"
-        },
-        "vite.notifyOnStarted": {
-          "type": "boolean",
-          "default": true,
-          "description": "Send notification when server starts"
-        },
-        "vite.devCommand": {
-          "type": "string",
-          "description": "Command for dev"
-        },
-        "vite.buildCommand": {
-          "type": "string",
-          "default": "npm run build",
-          "description": "Command for build"
-        },
-        "vite.vitepress": {
-          "type": "boolean",
-          "default": true,
-          "description": "Use vitepress if available"
-        },
-        "vite.vitepressBase": {
-          "type": "string",
-          "default": "",
-          "description": "Base path for Vitepress"
-        },
-        "vite.vitepressAutoRouting": {
-          "type": "boolean",
-          "default": false,
-          "description": "Navigate to the page you are working on"
-        },
-        "vite.open": {
-          "type": "boolean",
-          "default": true,
-          "description": "Open app on server ready"
+    "views": {
+      "snippet-explorer": [
+        {
+          "id": "snippetExplorer",
+          "name": "Snippet Manager"
         }
-      }
+      ]
+    },
+    "menus": {
+      "commandPalette": [
+        {
+          "command": "easySnippet.run",
+          "when": "editorHasSelection"
+        },
+        {
+          "command": "snippetExplorer.addSnippet",
+          "when": "1 == 2"
+        },
+        {
+          "command": "snippetExplorer.editGroup",
+          "when": "1 == 2"
+        },
+        {
+          "command": "snippetExplorer.deleteGroup",
+          "when": "1 == 2"
+        },
+        {
+          "command": "snippetExplorer.deleteSnippet",
+          "when": "1 == 2"
+        },
+        {
+          "command": "snippetExplorer.editSnippet",
+          "when": "1 == 2"
+        }
+      ],
+      "view/title": [
+        {
+          "command": "snippetExplorer.search",
+          "when": "view == snippetExplorer",
+          "group": "navigation"
+        },
+        {
+          "command": "snippetExplorer.refresh",
+          "when": "view == snippetExplorer",
+          "group": "navigation"
+        },
+        {
+          "command": "snippetExplorer.addGroup",
+          "when": "view == snippetExplorer",
+          "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "snippetExplorer.addSnippet",
+          "when": "view == snippetExplorer && viewItem == group",
+          "group": "inline@1"
+        },
+        {
+          "command": "snippetExplorer.editGroup",
+          "when": "view == snippetExplorer && viewItem == group",
+          "group": "inline@2"
+        },
+        {
+          "command": "snippetExplorer.deleteGroup",
+          "when": "view == snippetExplorer && viewItem == group",
+          "group": "inline@3"
+        },
+        {
+          "command": "snippetExplorer.deleteSnippet",
+          "when": "view == snippetExplorer && viewItem == snippet",
+          "group": "inline"
+        }
+      ]
     }
   },
   "scripts": {
     "vscode:prepublish": "npm run build",
     "build": "tsup src/extension.ts --dts --external=vscode",
     "dev": "npm run build -- --watch",
-    "release": "npx bumpp --commit --tag --push"
+    "dev:prepare": "esno scripts/prepare.ts",
+    "release": "npx bumpp --commit --tag --push",
+    "test:dx": "echo 123"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^0.6.2",
+    "@types/mkdirp": "^0.5.2",
     "@types/node": "^14.14.37",
+    "@types/rimraf": "^3.0.2",
     "@types/vscode": "^1.52.0",
     "eslint": "^7.23.0",
+    "esno": "^0.10.0",
+    "kolorist": "^1.5.0",
     "pkg-up": "^3.1.0",
     "tsup": "^4.8.21",
     "types-package-json": "^2.0.31",
     "typescript": "^4.2.3",
     "vite": "^2.1.5"
-  }
+  },
+  "dependencies": {
+    "chokidar": "^3.5.2",
+    "fs-extra": "^10.0.0",
+    "minimist": "^1.2.5",
+    "mkdirp": "^0.5.1",
+    "rimraf": "^3.0.2",
+    "webextension-polyfill": "^0.8.0",
+    "write-pkg": "^5.0.0"
+  },
+  "extensionKind": [
+    "ui"
+  ]
 }
