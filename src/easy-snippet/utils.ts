@@ -3,51 +3,38 @@
  * @Author: xiangjun02
  * @Date: 2022-03-06 20:20:50
  * @LastEditors: xiangjun02
- * @LastEditTime: 2022-03-06 22:34:08
+ * @LastEditTime: 2022-03-06 23:28:19
  */
-import http from "http";
-import https from "https";
 import fs from "fs-extra";
 import * as path from 'path';
-
-import { Config } from "./config";
-// import { ctx } from "./Context";
 import * as vscode from "vscode";
-import { type } from "os";
+import * as os from "os"
 
-let vsCodeUserSettingsPath: string;
-let isInsiders: boolean = /insiders/i.test(process.argv0);
-let isCodium: boolean = /codium/i.test(process.argv0);
-let isOSS: boolean = /vscode-oss/i.test(__dirname);
-let CodeDir: string = isInsiders
-  ? "Code - Insiders"
-  : isCodium
-  ? "VSCodium"
-  : isOSS
-  ? "Code - OSS"
-  : "Code";
-let isPortable: boolean = process.env.VSCODE_PORTABLE ? true : false;
+let vsCodeUserSettingsPath;
+let isInsiders = /insiders/i.test(process.argv0);
+let isCodium = /codium/i.test(process.argv0);                                  
+let isOSS = /vscode-oss/i.test(__dirname);
+let CodeDir = isInsiders?'Code - Insiders':isCodium?'VSCodium':isOSS?'Code - OSS':'Code';
+let isPortable = process.env.VSCODE_PORTABLE ? true : false;
 if (isPortable) {
-  vsCodeUserSettingsPath = process.env.VSCODE_PORTABLE + `/user-data/User/`;
+    vsCodeUserSettingsPath = process.env.VSCODE_PORTABLE + `/user-data/User/`;
 } else {
-  switch (type()) {
-    case "Darwin":
-      vsCodeUserSettingsPath =
-        process.env.HOME + `/Library/Application Support/${CodeDir}/User/`;
-      break;
-    case "Linux":
-      vsCodeUserSettingsPath = process.env.HOME + `/.config/${CodeDir}/User/`;
-      break;
-    case "Windows_NT":
-      vsCodeUserSettingsPath = process.env.APPDATA + `\\${CodeDir}\\User\\`;
-      break;
-    default:
-      vsCodeUserSettingsPath = process.env.HOME + `/.config/${CodeDir}/User/`;
-      break;
-  }
+    switch (os.type()) {
+        case "Darwin":
+            vsCodeUserSettingsPath = process.env.HOME + `/Library/Application Support/${CodeDir}/User/`;
+            break;
+        case "Linux":
+            vsCodeUserSettingsPath = process.env.HOME + `/.config/${CodeDir}/User/`;
+            break;
+        case "Windows_NT":
+            vsCodeUserSettingsPath = process.env.APPDATA + `\\${CodeDir}\\User\\`;
+            break;
+        default:
+            vsCodeUserSettingsPath = process.env.HOME + `/.config/${CodeDir}/User/`;
+            break;
+    }    
 }
-
-let vsCodeSnippetsPath: string = path.join(vsCodeUserSettingsPath, "snippets");
+let vsCodeSnippetsPath = path.join(vsCodeUserSettingsPath, 'snippets');
 let json_caches = {};
 
 export default {
@@ -116,7 +103,7 @@ export default {
     }
     // Validate config file existance
     if (!!langConfigFilepath && fs.existsSync(langConfigFilepath)) {
-      return utils.readJson(langConfigFilepath);
+      return this.readJson(langConfigFilepath);
     }
   },
   /**
